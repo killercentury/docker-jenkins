@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+GNAME=$(stat -c "%G" /var/run/docker.sock)
+GID=$(stat -c "%g" /var/run/docker.sock)
+if [ "$GNAME" != "docker" ]
+then
+  groupadd -g $GID docker
+  usermod -a -G docker jenkins
+fi
